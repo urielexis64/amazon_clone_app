@@ -45,4 +45,13 @@ class User {
   String toJson() => json.encode(toMap());
 
   factory User.fromJson(String source) => User.fromMap(json.decode(source));
+  factory User.empty() => User(
+        name: '',
+        email: '',
+        password: '',
+        address: '',
+        type: '',
+        id: '',
+        token: '',
+      );
 }

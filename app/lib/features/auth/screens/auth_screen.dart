@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:amazon_clone/common/widgets/amazon_button.dart';
 import 'package:amazon_clone/common/widgets/amazon_text_field.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
@@ -152,10 +150,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               ),
                               const SizedBox(height: 10),
                               AmazonButton(
-                                onPressed: () {
-                                  _signUpFormKey.currentState!.validate();
-                                  inspect(_signUpFormKey.currentState);
-                                },
+                                onPressed: _signInUser,
                                 text: AmazonCopies.signIn,
                               ),
                             ],
@@ -190,6 +185,21 @@ class _AuthScreenState extends State<AuthScreen> {
       });
       await _authService.signUpUser(
           context: context, email: email, password: password, name: name);
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _signInUser() async {
+    if (_signInFormKey.currentState!.validate()) {
+      final email = _emailController.text;
+      final password = _passwordController.text;
+      setState(() {
+        _isLoading = true;
+      });
+      await _authService.signInUser(
+          context: context, email: email, password: password);
       setState(() {
         _isLoading = false;
       });
